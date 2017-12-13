@@ -8,6 +8,7 @@
 <meta name="keywords" content="">
 <link href="css/style.css" rel="stylesheet" type="text/css" />
         <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="https://checkout.stripe.com/checkout.js"></script>
 </head>
 <body>
 <div class="container clearfix">   
@@ -18,7 +19,7 @@
         <ul class="menu-main menu-main-left">
   <li><a href="index.html">Home</a></li>
   <li><a href="ordering-online.html">Ordering Online</a></li>
-  <li class="last submenu"> <a href="products/breads.html">Products</a>
+  <li class="last submenu"> <a href="products.html">Products</a>
     <ul>
     
       <li><a href="products/breads.html">Breads</a></li>
@@ -92,8 +93,44 @@ $().ready(function() {$("#contact_form").validate();});
             <a href="http://www.apple.com/" target="_blank" class="browsers"><img alt="Safari (Macs Only )" src="images/browsers/browser-safari.gif" width="36" height="36" />Safari</br><span>(Macs Only)</span></a>
         </div>
       </div>
+        <div class="check">
+            <h2> Customer Checkout</h2>
+            <br />
+
+            <div id="shop">
+                <button id="buttonCheckout" class="button button-yellow">Checkout</button>
+            </div>
+        </div>
     </div>
    
+
+    <script>
+        var checkoutHandler = StripeCheckout.configure({
+            key: "pk_test_6pRNASCoBOKtIshFeQd4XMUh",
+            locale: "auto"
+        });
+
+        var button = document.getElementById("buttonCheckout");
+        button.addEventListener("click", function (ev) {
+            checkoutHandler.open({
+                name: "Sample Store",
+                description: "Example Purchase",
+                token: handleToken
+            });
+        });
+
+        function handleToken(token) {
+            fetch("/charge", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(token)
+            })
+                .then(output => {
+                    if (output.status === "succeeded")
+                        document.getElementById("shop").innerHTML = "<p>Purchase complete!</p>";
+                })
+        }
+    </script>
 
 </body>
 

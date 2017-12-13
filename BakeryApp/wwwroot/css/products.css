@@ -1,0 +1,23 @@
+.product-pics{
+    position: relative;
+    left: 0px;
+    top: 25px; 
+}
+
+.per-dozen{
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    font-size: 10px;
+
+}
+
+h4:hover {
+    color: #B50500;
+}
+
+.scroll{
+    font-size: 40px;
+    color: #FFC90D;
+}
+
